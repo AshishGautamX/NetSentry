@@ -1,0 +1,1256 @@
+{
+  "cisco": {
+    "security.ssh.version": {
+      "cli_commands": [
+        "configure terminal",
+        "ip ssh version 2",
+        "ip ssh time-out 60",
+        "ip ssh authentication-retries 3",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip ssh",
+      "explanation": "Forces Cisco IOS/IOS-XE to negotiate only SSHv2 and closes vulnerabilities associated with SSHv1 fallback."
+    },
+    "security.telnet.enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "line vty 0 15",
+        "transport input ssh",
+        "transport output none",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | section line vty",
+      "explanation": "Restricts virtual terminal lines exclusively to SSH and eliminates cleartext Telnet access."
+    },
+    "security.http_server.enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "no ip http server",
+        "ip http secure-server",
+        "ip http secure-port 443",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip http server status",
+      "explanation": "Disables unencrypted HTTP management daemon and enables TLS-encrypted HTTPS management."
+    },
+    "security.https_server.enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "ip http secure-server",
+        "ip http secure-port 443",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip http server secure status",
+      "explanation": "Enables HTTPS secure web management daemon."
+    },
+    "security.password_policy.min_length": {
+      "cli_commands": [
+        "configure terminal",
+        "security passwords min-length 14",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include security passwords",
+      "explanation": "Enforces a global minimum password length of 14 characters on Cisco IOS devices."
+    },
+    "security.session_timeout": {
+      "cli_commands": [
+        "configure terminal",
+        "line con 0",
+        " exec-timeout 5 0",
+        "line vty 0 15",
+        " exec-timeout 5 0",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include exec-timeout",
+      "explanation": "Configures terminal inactive session timeout to 5 minutes (300 seconds)."
+    },
+    "security.banner.login_banner_configured": {
+      "cli_commands": [
+        "configure terminal",
+        "banner login ^C",
+        "*****************************************************************",
+        "* AUTHORIZED USERS ONLY - ALL ACTIVITIES MONITORED AND LOGGED   *",
+        "*****************************************************************",
+        "^C",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | section banner",
+      "explanation": "Configures legal advisory login notice before authentication."
+    },
+    "security.logging.syslog_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "logging host <CENTRAL_SYSLOG_IP>",
+        "logging trap warnings",
+        "service timestamps log datetime msec",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show logging",
+      "explanation": "Forwards security audit events to a centralized syslog server."
+    },
+    "security.ntp.configured": {
+      "cli_commands": [
+        "configure terminal",
+        "ntp server <AUTHENTICATED_NTP_IP> prefer",
+        "ntp authenticate",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ntp status",
+      "explanation": "Synchronizes system clocks with an authoritative time server."
+    },
+    "security.snmp.v3_only": {
+      "cli_commands": [
+        "configure terminal",
+        "no snmp-server community public",
+        "no snmp-server community private",
+        "snmp-server group SECUREGROUP v3 priv",
+        "snmp-server user secadmin SECUREGROUP v3 auth sha <AUTH_SECRET> priv aes 128 <PRIV_SECRET>",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show snmp group",
+      "explanation": "Removes legacy SNMPv1/v2c communities and enables SNMPv3 authentication and privacy."
+    },
+    "security.aaa.authentication_login": {
+      "cli_commands": [
+        "configure terminal",
+        "aaa new-model",
+        "aaa authentication login default local",
+        "aaa authorization exec default local",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | section aaa",
+      "explanation": "Enforces centralized AAA architecture for administrator access."
+    },
+    "security.ftp.disabled": {
+      "cli_commands": [
+        "configure terminal",
+        "no ftp-server enable",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include ftp-server",
+      "explanation": "Disables cleartext FTP server daemon on Cisco IOS devices."
+    },
+    "security.aux_port.disabled": {
+      "cli_commands": [
+        "configure terminal",
+        "line aux 0",
+        "no exec",
+        "transport input none",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | section line aux",
+      "explanation": "Disables execution and transport access on the auxiliary console port."
+    },
+    "security.password_policy.encryption_service": {
+      "cli_commands": [
+        "configure terminal",
+        "service password-encryption",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include service password-encryption",
+      "explanation": "Enables local password hash encryption service for stored credentials."
+    },
+    "security.password_policy.login_lockout": {
+      "cli_commands": [
+        "configure terminal",
+        "login block-for 300 attempts 5 within 60",
+        "login delay 2",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show login",
+      "explanation": "Configures brute force login rate limiting and lockout delay."
+    },
+    "security.ip.source_routing_disabled": {
+      "cli_commands": [
+        "configure terminal",
+        "no ip source-route",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include no ip source-route",
+      "explanation": "Disables IP source routing to prevent routing boundary bypass."
+    },
+    "security.ip.redirects_disabled": {
+      "cli_commands": [
+        "configure terminal",
+        "interface GigabitEthernet0/0",
+        "no ip redirects",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip interface GigabitEthernet0/0 | include redirects",
+      "explanation": "Disables ICMP redirects on routed interfaces."
+    },
+    "security.ip.directed_broadcast_disabled": {
+      "cli_commands": [
+        "configure terminal",
+        "interface GigabitEthernet0/0",
+        "no ip directed-broadcast",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip interface GigabitEthernet0/0 | include directed-broadcast",
+      "explanation": "Disables directed broadcasts to prevent network amplification attacks."
+    },
+    "security.ip.proxy_arp_disabled": {
+      "cli_commands": [
+        "configure terminal",
+        "interface GigabitEthernet0/0",
+        "no ip proxy-arp",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip interface GigabitEthernet0/0 | include Proxy ARP",
+      "explanation": "Disables Proxy ARP to mitigate ARP spoofing vulnerabilities."
+    },
+    "security.ip.urpf_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "interface GigabitEthernet0/0",
+        "ip verify unicast source reachable-via rx",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip interface GigabitEthernet0/0 | include verify unicast",
+      "explanation": "Enables Unicast Reverse Path Forwarding (uRPF) anti-spoofing ingress check."
+    },
+    "security.logging.timestamp_detail": {
+      "cli_commands": [
+        "configure terminal",
+        "service timestamps log datetime msec show-timezone",
+        "service timestamps debug datetime msec show-timezone",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include timestamps",
+      "explanation": "Configures millisecond timestamp precision and timezone for log messages."
+    },
+    "security.logging.buffered_level": {
+      "cli_commands": [
+        "configure terminal",
+        "logging buffered 64000 informational",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show logging | include Buffer",
+      "explanation": "Allocates local log buffer memory with informational severity retention."
+    },
+    "security.ntp.auth_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "ntp authenticate",
+        "ntp trusted-key 1",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ntp status",
+      "explanation": "Enforces cryptographic authentication for NTP time sources."
+    },
+    "security.snmp.v3_encryption": {
+      "cli_commands": [
+        "configure terminal",
+        "snmp-server group SOC_ADMIN v3 priv",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show snmp group",
+      "explanation": "Enforces SNMPv3 authPriv with AES encryption."
+    },
+    "security.control_plane.copp_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "control-plane",
+        "service-policy input COPP_POLICY",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show policy-map control-plane",
+      "explanation": "Applies Control Plane Policing (CoPP) to protect the route processor CPU."
+    },
+    "security.routing.bgp_auth_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "router bgp 65000",
+        "neighbor 10.0.0.1 password [BGP_SECRET_KEY]",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip bgp neighbors 10.0.0.1 | include password",
+      "explanation": "Enforces MD5 authentication on BGP peering sessions."
+    },
+    "security.routing.bgp_max_prefix": {
+      "cli_commands": [
+        "configure terminal",
+        "router bgp 65000",
+        "neighbor 10.0.0.1 maximum-prefix 1000 80 warning-only",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip bgp neighbors 10.0.0.1 | include Prefix activity",
+      "explanation": "Configures maximum prefix limits for BGP peers to prevent routing table flooding."
+    },
+    "security.routing.ospf_auth_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "interface GigabitEthernet0/0",
+        "ip ospf authentication message-digest",
+        "ip ospf message-digest-key 1 md5 [OSPF_KEY]",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip ospf interface GigabitEthernet0/0 | include Message-digest",
+      "explanation": "Enforces cryptographic MD5 authentication on OSPF interface links."
+    },
+    "security.aaa.accounting_enabled": {
+      "cli_commands": [
+        "configure terminal",
+        "aaa accounting commands 15 default start-stop group tacacs+",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include aaa accounting",
+      "explanation": "Enables AAA command accounting for privileged administrative commands."
+    },
+    "security.discovery.cdp_lldp_restricted": {
+      "cli_commands": [
+        "configure terminal",
+        "no cdp run",
+        "no lldp run",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show cdp",
+      "explanation": "Disables CDP and LLDP layer-2 discovery protocols globally."
+    },
+    "security.snmp.acl_restricted": {
+      "cli_commands": [
+        "configure terminal",
+        "snmp-server community [COMMUNITY] 10",
+        "access-list 10 permit 10.0.0.100",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show running-config | include snmp-server community",
+      "explanation": "Restricts SNMP community access to authorized management IPs via access-list."
+    },
+    "security.ssh.rekey_limit": {
+      "cli_commands": [
+        "configure terminal",
+        "ip ssh rekey time 60",
+        "ip ssh rekey volume 1024",
+        "end",
+        "write memory"
+      ],
+      "verification_cmd": "show ip ssh",
+      "explanation": "Configures SSH cryptographic session key renewal intervals."
+    }
+  },
+  "juniper": {
+    "security.ssh.version": {
+      "cli_commands": [
+        "set system services ssh protocol-version v2",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system services ssh",
+      "explanation": "Enforces SSHv2 protocol version on Juniper Junos."
+    },
+    "security.telnet.enabled": {
+      "cli_commands": [
+        "delete system services telnet",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system services",
+      "explanation": "Deletes the Telnet service definition to prohibit cleartext connections."
+    },
+    "security.http_server.enabled": {
+      "cli_commands": [
+        "delete system services web-management http",
+        "set system services web-management https port 443",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system services web-management",
+      "explanation": "Eliminates cleartext HTTP web management in favor of HTTPS."
+    },
+    "security.password_policy.min_length": {
+      "cli_commands": [
+        "set system login password minimum-length 14",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system login password",
+      "explanation": "Configures Junos system password minimum length to 14 characters."
+    },
+    "security.session_timeout": {
+      "cli_commands": [
+        "set system login retry-options minimum-time 20",
+        "set system login class super-user idle-timeout 10",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system login",
+      "explanation": "Configures user class idle session timeout to 10 minutes."
+    },
+    "security.banner.login_banner_configured": {
+      "cli_commands": [
+        "set system login message \"AUTHORIZED USERS ONLY - MONITORED GATEWAY\"",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system login message",
+      "explanation": "Sets the login notice banner message in Junos."
+    },
+    "security.logging.syslog_enabled": {
+      "cli_commands": [
+        "set system syslog host <CENTRAL_SYSLOG_IP> any warning",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system syslog",
+      "explanation": "Configures remote syslog event forwarding."
+    },
+    "security.ntp.configured": {
+      "cli_commands": [
+        "set system ntp server <NTP_IP>",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system ntp",
+      "explanation": "Configures NTP time synchronization."
+    },
+    "security.aaa.authentication_login": {
+      "cli_commands": [
+        "set system authentication-order [ radius password ]",
+        "commit check",
+        "commit and-quit"
+      ],
+      "verification_cmd": "show configuration system authentication-order",
+      "explanation": "Enforces centralized authentication order."
+    },
+    "security.ftp.disabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ftp.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ftp.disabled on juniper appliance."
+    },
+    "security.aux_port.disabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.aux_port.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aux_port.disabled on juniper appliance."
+    },
+    "security.password_policy.encryption_service": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.password_policy.encryption_service"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.encryption_service on juniper appliance."
+    },
+    "security.password_policy.login_lockout": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.password_policy.login_lockout"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.login_lockout on juniper appliance."
+    },
+    "security.ip.source_routing_disabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ip.source_routing_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.source_routing_disabled on juniper appliance."
+    },
+    "security.ip.redirects_disabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ip.redirects_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.redirects_disabled on juniper appliance."
+    },
+    "security.ip.directed_broadcast_disabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ip.directed_broadcast_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.directed_broadcast_disabled on juniper appliance."
+    },
+    "security.ip.proxy_arp_disabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ip.proxy_arp_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.proxy_arp_disabled on juniper appliance."
+    },
+    "security.ip.urpf_enabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ip.urpf_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.urpf_enabled on juniper appliance."
+    },
+    "security.logging.timestamp_detail": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.logging.timestamp_detail"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.timestamp_detail on juniper appliance."
+    },
+    "security.logging.buffered_level": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.logging.buffered_level"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.buffered_level on juniper appliance."
+    },
+    "security.ntp.auth_enabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ntp.auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ntp.auth_enabled on juniper appliance."
+    },
+    "security.snmp.v3_encryption": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.snmp.v3_encryption"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.v3_encryption on juniper appliance."
+    },
+    "security.control_plane.copp_enabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.control_plane.copp_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.control_plane.copp_enabled on juniper appliance."
+    },
+    "security.routing.bgp_auth_enabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.routing.bgp_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_auth_enabled on juniper appliance."
+    },
+    "security.routing.bgp_max_prefix": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.routing.bgp_max_prefix"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_max_prefix on juniper appliance."
+    },
+    "security.routing.ospf_auth_enabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.routing.ospf_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.ospf_auth_enabled on juniper appliance."
+    },
+    "security.aaa.accounting_enabled": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.aaa.accounting_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aaa.accounting_enabled on juniper appliance."
+    },
+    "security.discovery.cdp_lldp_restricted": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.discovery.cdp_lldp_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.discovery.cdp_lldp_restricted on juniper appliance."
+    },
+    "security.snmp.acl_restricted": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.snmp.acl_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.acl_restricted on juniper appliance."
+    },
+    "security.ssh.rekey_limit": {
+      "cli_commands": [
+        "# Apply juniper security configuration for security.ssh.rekey_limit"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ssh.rekey_limit on juniper appliance."
+    }
+  },
+  "fortinet": {
+    "security.ssh.version": {
+      "cli_commands": [
+        "config system global",
+        "    set admin-ssh-v1 disable",
+        "end"
+      ],
+      "verification_cmd": "get system global | grep admin-ssh-v1",
+      "explanation": "Disables legacy SSHv1 on Fortinet FortiOS."
+    },
+    "security.telnet.enabled": {
+      "cli_commands": [
+        "config system interface",
+        "    edit <MGMT_INTERFACE>",
+        "        set allowaccess ping https ssh",
+        "    next",
+        "end"
+      ],
+      "verification_cmd": "show system interface <MGMT_INTERFACE>",
+      "explanation": "Removes telnet from interface allowaccess list."
+    },
+    "security.http_server.enabled": {
+      "cli_commands": [
+        "config system interface",
+        "    edit <MGMT_INTERFACE>",
+        "        set allowaccess https ssh",
+        "    next",
+        "end"
+      ],
+      "verification_cmd": "show system interface <MGMT_INTERFACE>",
+      "explanation": "Removes cleartext HTTP from administrative interface."
+    },
+    "security.password_policy.min_length": {
+      "cli_commands": [
+        "config system password-policy",
+        "    set status-sys-admin enable",
+        "    set min-length 14",
+        "end"
+      ],
+      "verification_cmd": "show system password-policy",
+      "explanation": "Enforces 14 character password minimum in FortiOS."
+    },
+    "security.session_timeout": {
+      "cli_commands": [
+        "config system global",
+        "    set admintimeout 10",
+        "end"
+      ],
+      "verification_cmd": "get system global | grep admintimeout",
+      "explanation": "Sets FortiOS administrative idle timeout to 10 minutes."
+    },
+    "security.banner.login_banner_configured": {
+      "cli_commands": [
+        "config system global",
+        "    set pre-login-banner enable",
+        "end"
+      ],
+      "verification_cmd": "get system global | grep pre-login-banner",
+      "explanation": "Enables legal pre-login banner."
+    },
+    "security.logging.syslog_enabled": {
+      "cli_commands": [
+        "config log syslogd setting",
+        "    set status enable",
+        "    set server <SYSLOG_IP>",
+        "end"
+      ],
+      "verification_cmd": "show log syslogd setting",
+      "explanation": "Enables and directs syslog output to remote server."
+    },
+    "security.ntp.configured": {
+      "cli_commands": [
+        "config system ntp",
+        "    set ntpsync enable",
+        "    config ntpserver",
+        "        edit 1",
+        "            set server <NTP_IP>",
+        "        next",
+        "    end",
+        "end"
+      ],
+      "verification_cmd": "show system ntp",
+      "explanation": "Enables NTP synchronization on FortiOS."
+    },
+    "security.ftp.disabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ftp.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ftp.disabled on fortinet appliance."
+    },
+    "security.aux_port.disabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.aux_port.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aux_port.disabled on fortinet appliance."
+    },
+    "security.password_policy.encryption_service": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.password_policy.encryption_service"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.encryption_service on fortinet appliance."
+    },
+    "security.password_policy.login_lockout": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.password_policy.login_lockout"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.login_lockout on fortinet appliance."
+    },
+    "security.ip.source_routing_disabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ip.source_routing_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.source_routing_disabled on fortinet appliance."
+    },
+    "security.ip.redirects_disabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ip.redirects_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.redirects_disabled on fortinet appliance."
+    },
+    "security.ip.directed_broadcast_disabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ip.directed_broadcast_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.directed_broadcast_disabled on fortinet appliance."
+    },
+    "security.ip.proxy_arp_disabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ip.proxy_arp_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.proxy_arp_disabled on fortinet appliance."
+    },
+    "security.ip.urpf_enabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ip.urpf_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.urpf_enabled on fortinet appliance."
+    },
+    "security.logging.timestamp_detail": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.logging.timestamp_detail"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.timestamp_detail on fortinet appliance."
+    },
+    "security.logging.buffered_level": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.logging.buffered_level"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.buffered_level on fortinet appliance."
+    },
+    "security.ntp.auth_enabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ntp.auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ntp.auth_enabled on fortinet appliance."
+    },
+    "security.snmp.v3_encryption": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.snmp.v3_encryption"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.v3_encryption on fortinet appliance."
+    },
+    "security.control_plane.copp_enabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.control_plane.copp_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.control_plane.copp_enabled on fortinet appliance."
+    },
+    "security.routing.bgp_auth_enabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.routing.bgp_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_auth_enabled on fortinet appliance."
+    },
+    "security.routing.bgp_max_prefix": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.routing.bgp_max_prefix"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_max_prefix on fortinet appliance."
+    },
+    "security.routing.ospf_auth_enabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.routing.ospf_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.ospf_auth_enabled on fortinet appliance."
+    },
+    "security.aaa.accounting_enabled": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.aaa.accounting_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aaa.accounting_enabled on fortinet appliance."
+    },
+    "security.discovery.cdp_lldp_restricted": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.discovery.cdp_lldp_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.discovery.cdp_lldp_restricted on fortinet appliance."
+    },
+    "security.snmp.acl_restricted": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.snmp.acl_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.acl_restricted on fortinet appliance."
+    },
+    "security.ssh.rekey_limit": {
+      "cli_commands": [
+        "# Apply fortinet security configuration for security.ssh.rekey_limit"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ssh.rekey_limit on fortinet appliance."
+    }
+  },
+  "paloalto": {
+    "security.ssh.version": {
+      "cli_commands": [
+        "set deviceconfig system service ssh-version-2 yes",
+        "commit"
+      ],
+      "verification_cmd": "show system state filter-pretty sys.service.*",
+      "explanation": "Enforces SSHv2 protocol version in PAN-OS."
+    },
+    "security.telnet.enabled": {
+      "cli_commands": [
+        "set deviceconfig system service disable-telnet yes",
+        "commit"
+      ],
+      "verification_cmd": "show system state filter-pretty sys.service.*",
+      "explanation": "Disables telnet service on PAN-OS management plane."
+    },
+    "security.http_server.enabled": {
+      "cli_commands": [
+        "set deviceconfig system service disable-http yes",
+        "commit"
+      ],
+      "verification_cmd": "show system state filter-pretty sys.service.*",
+      "explanation": "Disables unencrypted HTTP service in PAN-OS."
+    },
+    "security.password_policy.min_length": {
+      "cli_commands": [
+        "set mgt-config password-complexity enabled yes",
+        "set mgt-config password-complexity minimum-length 14",
+        "commit"
+      ],
+      "verification_cmd": "show mgt-config password-complexity",
+      "explanation": "Configures password complexity minimum length on Palo Alto."
+    },
+    "security.session_timeout": {
+      "cli_commands": [
+        "set deviceconfig setting management idle-timeout 10",
+        "commit"
+      ],
+      "verification_cmd": "show system state filter-pretty sys.session.*",
+      "explanation": "Sets idle timeout to 10 minutes in PAN-OS."
+    },
+    "security.banner.login_banner_configured": {
+      "cli_commands": [
+        "set deviceconfig system login-banner \"AUTHORIZED USERS ONLY - MONITORED GATEWAY\"",
+        "commit"
+      ],
+      "verification_cmd": "show system info",
+      "explanation": "Configures login banner in PAN-OS."
+    },
+    "security.logging.syslog_enabled": {
+      "cli_commands": [
+        "set shared log-settings syslog SYSLOG-SRV server <SYSLOG_IP> transport UDP port 514",
+        "commit"
+      ],
+      "verification_cmd": "show shared log-settings syslog",
+      "explanation": "Directs system logs to remote syslog server."
+    },
+    "security.ntp.configured": {
+      "cli_commands": [
+        "set deviceconfig system ntp-servers primary-ntp-server ntp-server-address <NTP_IP>",
+        "commit"
+      ],
+      "verification_cmd": "show ntp",
+      "explanation": "Configures primary NTP server on Palo Alto."
+    },
+    "security.ftp.disabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ftp.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ftp.disabled on paloalto appliance."
+    },
+    "security.aux_port.disabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.aux_port.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aux_port.disabled on paloalto appliance."
+    },
+    "security.password_policy.encryption_service": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.password_policy.encryption_service"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.encryption_service on paloalto appliance."
+    },
+    "security.password_policy.login_lockout": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.password_policy.login_lockout"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.login_lockout on paloalto appliance."
+    },
+    "security.ip.source_routing_disabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ip.source_routing_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.source_routing_disabled on paloalto appliance."
+    },
+    "security.ip.redirects_disabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ip.redirects_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.redirects_disabled on paloalto appliance."
+    },
+    "security.ip.directed_broadcast_disabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ip.directed_broadcast_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.directed_broadcast_disabled on paloalto appliance."
+    },
+    "security.ip.proxy_arp_disabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ip.proxy_arp_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.proxy_arp_disabled on paloalto appliance."
+    },
+    "security.ip.urpf_enabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ip.urpf_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.urpf_enabled on paloalto appliance."
+    },
+    "security.logging.timestamp_detail": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.logging.timestamp_detail"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.timestamp_detail on paloalto appliance."
+    },
+    "security.logging.buffered_level": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.logging.buffered_level"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.buffered_level on paloalto appliance."
+    },
+    "security.ntp.auth_enabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ntp.auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ntp.auth_enabled on paloalto appliance."
+    },
+    "security.snmp.v3_encryption": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.snmp.v3_encryption"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.v3_encryption on paloalto appliance."
+    },
+    "security.control_plane.copp_enabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.control_plane.copp_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.control_plane.copp_enabled on paloalto appliance."
+    },
+    "security.routing.bgp_auth_enabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.routing.bgp_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_auth_enabled on paloalto appliance."
+    },
+    "security.routing.bgp_max_prefix": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.routing.bgp_max_prefix"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_max_prefix on paloalto appliance."
+    },
+    "security.routing.ospf_auth_enabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.routing.ospf_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.ospf_auth_enabled on paloalto appliance."
+    },
+    "security.aaa.accounting_enabled": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.aaa.accounting_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aaa.accounting_enabled on paloalto appliance."
+    },
+    "security.discovery.cdp_lldp_restricted": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.discovery.cdp_lldp_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.discovery.cdp_lldp_restricted on paloalto appliance."
+    },
+    "security.snmp.acl_restricted": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.snmp.acl_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.acl_restricted on paloalto appliance."
+    },
+    "security.ssh.rekey_limit": {
+      "cli_commands": [
+        "# Apply paloalto security configuration for security.ssh.rekey_limit"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ssh.rekey_limit on paloalto appliance."
+    }
+  },
+  "arista": {
+    "security.ssh.version": {
+      "cli_commands": [
+        "enable",
+        "configure",
+        "management ssh",
+        "   protocol version 2",
+        "exit"
+      ],
+      "verification_cmd": "show management ssh",
+      "explanation": "Enforces SSHv2 on Arista EOS."
+    },
+    "security.telnet.enabled": {
+      "cli_commands": [
+        "enable",
+        "configure",
+        "no management telnet",
+        "exit"
+      ],
+      "verification_cmd": "show management telnet",
+      "explanation": "Disables Telnet management on Arista EOS."
+    },
+    "security.http_server.enabled": {
+      "cli_commands": [
+        "enable",
+        "configure",
+        "no management api http-commands",
+        "management api http-commands",
+        "   protocol https",
+        "   no shutdown",
+        "exit"
+      ],
+      "verification_cmd": "show management api http-commands",
+      "explanation": "Disables unencrypted HTTP API commands and enforces HTTPS."
+    },
+    "security.session_timeout": {
+      "cli_commands": [
+        "enable",
+        "configure",
+        "management ssh",
+        "   idle-timeout 10",
+        "exit"
+      ],
+      "verification_cmd": "show management ssh",
+      "explanation": "Sets idle timeout to 10 minutes on Arista EOS."
+    },
+    "security.logging.syslog_enabled": {
+      "cli_commands": [
+        "enable",
+        "configure",
+        "logging host <SYSLOG_IP>",
+        "logging trap warnings",
+        "exit"
+      ],
+      "verification_cmd": "show logging",
+      "explanation": "Forwards logs to remote syslog server on Arista EOS."
+    },
+    "security.ntp.configured": {
+      "cli_commands": [
+        "enable",
+        "configure",
+        "ntp server <NTP_IP> prefer",
+        "exit"
+      ],
+      "verification_cmd": "show ntp status",
+      "explanation": "Configures NTP time synchronization server on Arista EOS."
+    },
+    "security.ftp.disabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ftp.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ftp.disabled on arista appliance."
+    },
+    "security.aux_port.disabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.aux_port.disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aux_port.disabled on arista appliance."
+    },
+    "security.password_policy.encryption_service": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.password_policy.encryption_service"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.encryption_service on arista appliance."
+    },
+    "security.password_policy.login_lockout": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.password_policy.login_lockout"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.password_policy.login_lockout on arista appliance."
+    },
+    "security.ip.source_routing_disabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ip.source_routing_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.source_routing_disabled on arista appliance."
+    },
+    "security.ip.redirects_disabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ip.redirects_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.redirects_disabled on arista appliance."
+    },
+    "security.ip.directed_broadcast_disabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ip.directed_broadcast_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.directed_broadcast_disabled on arista appliance."
+    },
+    "security.ip.proxy_arp_disabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ip.proxy_arp_disabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.proxy_arp_disabled on arista appliance."
+    },
+    "security.ip.urpf_enabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ip.urpf_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ip.urpf_enabled on arista appliance."
+    },
+    "security.logging.timestamp_detail": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.logging.timestamp_detail"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.timestamp_detail on arista appliance."
+    },
+    "security.logging.buffered_level": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.logging.buffered_level"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.logging.buffered_level on arista appliance."
+    },
+    "security.ntp.auth_enabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ntp.auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ntp.auth_enabled on arista appliance."
+    },
+    "security.snmp.v3_encryption": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.snmp.v3_encryption"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.v3_encryption on arista appliance."
+    },
+    "security.control_plane.copp_enabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.control_plane.copp_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.control_plane.copp_enabled on arista appliance."
+    },
+    "security.routing.bgp_auth_enabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.routing.bgp_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_auth_enabled on arista appliance."
+    },
+    "security.routing.bgp_max_prefix": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.routing.bgp_max_prefix"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.bgp_max_prefix on arista appliance."
+    },
+    "security.routing.ospf_auth_enabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.routing.ospf_auth_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.routing.ospf_auth_enabled on arista appliance."
+    },
+    "security.aaa.accounting_enabled": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.aaa.accounting_enabled"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.aaa.accounting_enabled on arista appliance."
+    },
+    "security.discovery.cdp_lldp_restricted": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.discovery.cdp_lldp_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.discovery.cdp_lldp_restricted on arista appliance."
+    },
+    "security.snmp.acl_restricted": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.snmp.acl_restricted"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.snmp.acl_restricted on arista appliance."
+    },
+    "security.ssh.rekey_limit": {
+      "cli_commands": [
+        "# Apply arista security configuration for security.ssh.rekey_limit"
+      ],
+      "verification_cmd": null,
+      "explanation": "Security remediation for security.ssh.rekey_limit on arista appliance."
+    }
+  }
+}

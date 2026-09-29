@@ -1,0 +1,47 @@
+{
+  "DEVICE_METADATA": {
+    "localhost": {
+      "hostname": "SONIC-SPINE-01",
+      "hwsku": "DellEMC-S5248f-P-25G-DPB",
+      "platform": "x86_64-dellemc_s5248f_c3538-r0",
+      "mac": "50:00:00:01:00:01",
+      "type": "SpineRouter",
+      "default_pfc_num": "0"
+    }
+  },
+  "SSH_SERVER": {
+    "POLICIES": {
+      "version": "2",
+      "port": "22",
+      "idle_timeout": "300",
+      "ciphers": "chacha20-poly1305@openssh.com,aes256-gcm@openssh.com",
+      "kex": "curve25519-sha256@libssh.org,diffie-hellman-group14-sha256"
+    }
+  },
+  "NTP_SERVER": {
+    "10.10.1.5": {
+      "key_id": "1"
+    }
+  },
+  "SYSLOG_SERVER": {
+    "10.10.50.10": {
+      "source": "10.10.1.1",
+      "port": "514"
+    }
+  },
+  "BGP_NEIGHBOR": {
+    "10.0.0.2": {
+      "asn": "65002",
+      "holdtime": "180",
+      "keepalive": "60",
+      "name": "Leaf-01",
+      "auth_password": "[MASKED_SECRET]",
+      "max_prefix": "1000"
+    }
+  },
+  "SNMP_COMMUNITY": {
+    "PUBLIC_STRING": {
+      "TYPE": "ro"
+    }
+  }
+}

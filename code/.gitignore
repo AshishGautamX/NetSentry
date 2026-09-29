@@ -1,0 +1,118 @@
+# ==============================================================================
+# Multi-Vendor Network Compliance & Security Auditor - Root .gitignore
+# ==============================================================================
+
+# --- Python & Bytecode ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual Environments ---
+.venv/
+.venv*/
+*/.venv/
+backend/.venv/
+venv/
+venv*/
+*/venv/
+backend/venv/
+env/
+env*/
+*/env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Testing & Coverage ---
+.pytest_cache/
+*/.pytest_cache/
+backend/.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.tox/
+.nox/
+
+# --- Databases & Local Storage ---
+*.db
+*.sqlite
+*.sqlite3
+backend/network_auditor.db
+network_auditor.db
+
+# --- Environment & Credentials ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+
+# --- Node.js & Frontend ---
+node_modules/
+*/node_modules/
+frontend/node_modules/
+dist/
+*/dist/
+frontend/dist/
+dist-ssr/
+frontend/dist-ssr/
+.vite/
+*/.vite/
+frontend/.vite/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Logs ---
+logs/
+*.log
+backend/logs/
+
+# --- IDEs & OS Artifacts ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# --- Docs (Ignore all except architecture) ---
+docs/*
+!docs/
+!docs/architecture.md

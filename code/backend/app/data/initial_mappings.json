@@ -1,0 +1,1018 @@
+[
+  {
+    "vendor": "cisco",
+    "command_pattern": "ip ssh version (?P<version>\\d+)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "int",
+    "description": "Cisco SSH protocol version specification"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "transport input (?!none)(?P<proto>.*)",
+    "normalized_param": "security.telnet.enabled",
+    "semantic_category": "Remote Access",
+    "value_type": "eval_telnet_cisco",
+    "description": "Cisco line vty allowed incoming transport protocols"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "(?:no\\s+)?ip http server",
+    "normalized_param": "security.http_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "eval_inverted_no",
+    "description": "Cisco cleartext HTTP web administration server"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "(?:no\\s+)?ip http secure-server",
+    "normalized_param": "security.https_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "eval_inverted_no",
+    "description": "Cisco TLS/HTTPS encrypted web administration server"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "security passwords min-length (?P<length>\\d+)",
+    "normalized_param": "security.password_policy.min_length",
+    "semantic_category": "Authentication",
+    "value_type": "int",
+    "description": "Cisco system-wide minimum password length"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "exec-timeout (?P<min>\\d+)(?:\\s+(?P<sec>\\d+))?",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "eval_exec_timeout_cisco",
+    "description": "Cisco terminal inactive session timeout in minutes/seconds"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "banner (?:login|motd)",
+    "normalized_param": "security.banner.login_banner_configured",
+    "semantic_category": "Access Warning",
+    "value_type": "boolean_true",
+    "description": "Cisco login advisory or MOTD warning banner"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "logging host (?P<host>\\S+)",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Cisco remote syslog server forwarding target"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "ntp server (?P<server>\\S+)",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Cisco NTP time synchronization server"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "snmp-server community (?:public|private)",
+    "normalized_param": "security.snmp.v3_only",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_false",
+    "description": "Cisco insecure default SNMPv1/v2c community string detected"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "snmp-server group \\S+ v3",
+    "normalized_param": "security.snmp.v3_only",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Cisco SNMPv3 cryptographic security group"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "aaa new-model",
+    "normalized_param": "security.aaa.authentication_login",
+    "semantic_category": "Identity & Access",
+    "value_type": "boolean_true",
+    "description": "Cisco AAA subsystem activation"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "(?:protocol-version\\s+v?(?P<version>\\d+)|set system services ssh protocol-version v?(?P<v2>\\d+))",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "int",
+    "description": "Juniper Junos SSH protocol version specification"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "(?:services.*telnet|set system services telnet)",
+    "normalized_param": "security.telnet.enabled",
+    "semantic_category": "Remote Access",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos cleartext Telnet service active"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "(?:web-management.*http(?!s)|set system services web-management http(?!s))",
+    "normalized_param": "security.http_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos unencrypted web management interface"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "(?:web-management.*https|set system services web-management https)",
+    "normalized_param": "security.https_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos TLS-encrypted HTTPS web management interface"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "minimum-length (?P<length>\\d+)",
+    "normalized_param": "security.password_policy.min_length",
+    "semantic_category": "Authentication",
+    "value_type": "int",
+    "description": "Juniper Junos user password minimum length"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "(?:idle-timeout|minimum-time) (?P<seconds>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "int",
+    "description": "Juniper Junos idle timeout specification"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "message \"(?P<banner>[^\"]+)\"",
+    "normalized_param": "security.banner.login_banner_configured",
+    "semantic_category": "Access Warning",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos system login warning banner message"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "syslog.*host (?P<host>\\S+)",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos remote syslog destination"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "ntp.*server (?P<server>\\S+)",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos remote NTP server"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "snmp.*v3",
+    "normalized_param": "security.snmp.v3_only",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos SNMPv3 USM configuration"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "authentication-order \\[?(?P<order>[^\\];]+)",
+    "normalized_param": "security.aaa.authentication_login",
+    "semantic_category": "Identity & Access",
+    "value_type": "boolean_true",
+    "description": "Juniper Junos centralized authentication order"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set admin-ssh-v1 (?P<state>enable|disable)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "eval_fortinet_ssh",
+    "description": "Fortinet FortiOS SSHv1 disable command (disable = SSHv2 enforced)"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set allowaccess (?:.*\\s)?telnet(?:\\s.*)?",
+    "normalized_param": "security.telnet.enabled",
+    "semantic_category": "Remote Access",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS interface access including Telnet"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set allowaccess (?:.*\\s)?http(?!s)(?:\\s.*)?",
+    "normalized_param": "security.http_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS unencrypted HTTP administrative access"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set allowaccess (?:.*\\s)?https(?:\\s.*)?",
+    "normalized_param": "security.https_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS HTTPS secure management"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set min-length (?P<length>\\d+)",
+    "normalized_param": "security.password_policy.min_length",
+    "semantic_category": "Authentication",
+    "value_type": "int",
+    "description": "Fortinet FortiOS password policy minimum length"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set admintimeout (?P<minutes>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "eval_minutes_to_seconds",
+    "description": "Fortinet FortiOS administrator idle session timeout in minutes"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set pre-login-banner enable",
+    "normalized_param": "security.banner.login_banner_configured",
+    "semantic_category": "Access Warning",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS pre-login advisory banner"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "config log syslogd setting",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS remote syslog forwarding daemon"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "config system ntp",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS NTP daemon configuration"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "config system admin",
+    "normalized_param": "security.aaa.authentication_login",
+    "semantic_category": "Identity & Access",
+    "value_type": "boolean_true",
+    "description": "Fortinet FortiOS administrator role management"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set deviceconfig system service ssh-version-2 (?P<state>yes|no)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "eval_paloalto_ssh",
+    "description": "Palo Alto PAN-OS SSHv2 enforcement flag"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set deviceconfig system service disable-telnet (?P<state>yes|no)",
+    "normalized_param": "security.telnet.enabled",
+    "semantic_category": "Remote Access",
+    "value_type": "eval_inverted_yes",
+    "description": "Palo Alto PAN-OS disable-telnet setting (yes = telnet disabled)"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set deviceconfig system service disable-http (?P<state>yes|no)",
+    "normalized_param": "security.http_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "eval_inverted_yes",
+    "description": "Palo Alto PAN-OS disable-http setting (yes = http disabled)"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set mgt-config password-complexity minimum-length (?P<length>\\d+)",
+    "normalized_param": "security.password_policy.min_length",
+    "semantic_category": "Authentication",
+    "value_type": "int",
+    "description": "Palo Alto PAN-OS password complexity minimum length"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set deviceconfig setting management idle-timeout (?P<minutes>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "eval_minutes_to_seconds",
+    "description": "Palo Alto PAN-OS idle timeout in minutes"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set deviceconfig system login-banner \"?(?P<banner>[^\"]+)\"?",
+    "normalized_param": "security.banner.login_banner_configured",
+    "semantic_category": "Access Warning",
+    "value_type": "boolean_true",
+    "description": "Palo Alto PAN-OS login banner message"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set shared log-settings syslog \\S+ server (?P<server>\\S+)",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Palo Alto PAN-OS syslog forwarding profile"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set deviceconfig system ntp-servers",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Palo Alto PAN-OS NTP server configuration"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set mgt-config users",
+    "normalized_param": "security.aaa.authentication_login",
+    "semantic_category": "Identity & Access",
+    "value_type": "boolean_true",
+    "description": "Palo Alto PAN-OS role-based authentication configuration"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "management ssh.*protocol version (?P<version>\\d+)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "int",
+    "description": "Arista EOS SSH protocol version"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "no management telnet",
+    "normalized_param": "security.telnet.enabled",
+    "semantic_category": "Remote Access",
+    "value_type": "boolean_false",
+    "description": "Arista EOS telnet disabled"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "no management api http-commands",
+    "normalized_param": "security.http_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "boolean_false",
+    "description": "Arista EOS HTTP API commands disabled"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "protocol https",
+    "normalized_param": "security.https_server.enabled",
+    "semantic_category": "Web Management",
+    "value_type": "boolean_true",
+    "description": "Arista EOS HTTPS protocol enabled"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "idle-timeout (?P<minutes>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "eval_minutes_to_seconds",
+    "description": "Arista EOS idle timeout in minutes"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "banner login",
+    "normalized_param": "security.banner.login_banner_configured",
+    "semantic_category": "Access Warning",
+    "value_type": "boolean_true",
+    "description": "Arista EOS login banner"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "logging host (?P<host>\\S+)",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Arista EOS syslog host target"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "ntp server (?P<server>\\S+)",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Arista EOS NTP server"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "aaa authentication login",
+    "normalized_param": "security.aaa.authentication_login",
+    "semantic_category": "Identity & Access",
+    "value_type": "boolean_true",
+    "description": "Arista EOS AAA authentication"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "no ftp-server enable",
+    "normalized_param": "security.ftp.disabled",
+    "semantic_category": "Data Protection",
+    "value_type": "boolean_true",
+    "description": "Cisco disabled FTP server daemon"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "service password-encryption",
+    "normalized_param": "security.password_policy.encryption_service",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Cisco service password-encryption enabled"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "login block-for \\d+ attempts \\d+ within \\d+",
+    "normalized_param": "security.password_policy.login_lockout",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Cisco brute force login block-for rate limiting"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "login delay \\d+",
+    "normalized_param": "security.password_policy.login_lockout",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Cisco login delay lockout protection"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "no ip source-route",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Cisco IP source routing disabled"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "no ip redirects",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Cisco ICMP redirects disabled on interface"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "no ip directed-broadcast",
+    "normalized_param": "security.ip.directed_broadcast_disabled",
+    "semantic_category": "Network Attack Mitigation",
+    "value_type": "boolean_true",
+    "description": "Cisco IP directed broadcast disabled"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "no ip proxy-arp",
+    "normalized_param": "security.ip.proxy_arp_disabled",
+    "semantic_category": "Network Topology Protection",
+    "value_type": "boolean_true",
+    "description": "Cisco Proxy ARP disabled on interface"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "ip verify unicast source reachable-via (?:rx|any)",
+    "normalized_param": "security.ip.urpf_enabled",
+    "semantic_category": "Anti-Spoofing",
+    "value_type": "boolean_true",
+    "description": "Cisco Unicast RPF anti-spoofing enabled"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "service timestamps log datetime(?:\\s+msec)?",
+    "normalized_param": "security.logging.timestamp_detail",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Cisco high-resolution log timestamps"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "logging buffered (?:\\d+\\s+)?(?:debugging|informational|notifications|warnings)",
+    "normalized_param": "security.logging.buffered_level",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Cisco internal memory buffer logging configuration"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "ntp authenticate",
+    "normalized_param": "security.ntp.auth_enabled",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Cisco NTP authentication enabled"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "snmp-server group \\S+ v3 priv",
+    "normalized_param": "security.snmp.v3_encryption",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Cisco SNMPv3 authPriv AES encryption group"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "(?:control-plane|service-policy input \\S+)",
+    "normalized_param": "security.control_plane.copp_enabled",
+    "semantic_category": "Control Plane Protection",
+    "value_type": "boolean_true",
+    "description": "Cisco Control Plane Policing (CoPP) activated"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "neighbor \\S+ password \\S+",
+    "normalized_param": "security.routing.bgp_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Cisco BGP neighbor MD5 authentication password"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "neighbor \\S+ maximum-prefix \\d+",
+    "normalized_param": "security.routing.bgp_max_prefix",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Cisco BGP neighbor maximum prefix limit"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "(?:ip ospf message-digest-key \\d+ md5 \\S+|ip ospf authentication message-digest)",
+    "normalized_param": "security.routing.ospf_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Cisco OSPF cryptographic MD5 authentication"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "aaa accounting (?:commands|exec) \\S+",
+    "normalized_param": "security.aaa.accounting_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Cisco AAA command and executive session accounting"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "(?:no cdp run|no lldp run|no cdp enable)",
+    "normalized_param": "security.discovery.cdp_lldp_restricted",
+    "semantic_category": "Network Security",
+    "value_type": "boolean_true",
+    "description": "Cisco layer 2 discovery protocol disabled"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "snmp-server community \\S+ (?:access-list|\\d+|\\w+)",
+    "normalized_param": "security.snmp.acl_restricted",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Cisco SNMP community access restricted by ACL"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "ip ssh rekey (?:time|volume) \\d+",
+    "normalized_param": "security.ssh.rekey_limit",
+    "semantic_category": "Remote Access",
+    "value_type": "boolean_true",
+    "description": "Cisco SSH session cryptographic rekey limit"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "no exec",
+    "normalized_param": "security.aux_port.disabled",
+    "semantic_category": "Physical & Console Access",
+    "value_type": "boolean_true",
+    "description": "Cisco auxiliary port execution disabled"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system no-ip-source-routing",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Juniper source routing disabled"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system no-redirects",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Juniper ICMP redirects disabled"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system no-directed-broadcast",
+    "normalized_param": "security.ip.directed_broadcast_disabled",
+    "semantic_category": "Network Attack Mitigation",
+    "value_type": "boolean_true",
+    "description": "Juniper directed broadcast disabled"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system ports auxiliary disable",
+    "normalized_param": "security.aux_port.disabled",
+    "semantic_category": "Physical & Console Access",
+    "value_type": "boolean_true",
+    "description": "Juniper auxiliary port disabled"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system root-authentication encrypted-password",
+    "normalized_param": "security.password_policy.encryption_service",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Juniper password encryption enabled"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system login retry-options backoff-threshold \\d+",
+    "normalized_param": "security.password_policy.login_lockout",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Juniper login retry threshold lockout"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set system syslog time-format (?:millisecond|iso-8601)",
+    "normalized_param": "security.logging.timestamp_detail",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Juniper millisecond log timestamping"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set snmp v3 usm local-engine user \\S+ authentication-sha privacy-aes",
+    "normalized_param": "security.snmp.v3_encryption",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Juniper SNMPv3 AES privacy encryption"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set protocols bgp group \\S+ neighbor \\S+ authentication-key \\S+",
+    "normalized_param": "security.routing.bgp_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Juniper BGP neighbor authentication key"
+  },
+  {
+    "vendor": "juniper",
+    "command_pattern": "set protocols ospf area \\S+ interface \\S+ md5 \\d+ key \\S+",
+    "normalized_param": "security.routing.ospf_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Juniper OSPF cryptographic MD5 authentication"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set ip-source-routing disable",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Fortinet IP source routing disabled"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set icmp-redirect disable",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Fortinet ICMP redirects disabled"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set password-encryption enable",
+    "normalized_param": "security.password_policy.encryption_service",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Fortinet password encryption service"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set lockout-threshold \\d+",
+    "normalized_param": "security.password_policy.login_lockout",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Fortinet admin login lockout threshold"
+  },
+  {
+    "vendor": "fortinet",
+    "command_pattern": "set security-level auth-priv",
+    "normalized_param": "security.snmp.v3_encryption",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Fortinet SNMPv3 authPriv encryption"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set network-profile zone-protection \\S+ drop-ip-source-routing yes",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "PAN-OS source routing drop enabled"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set network-profile zone-protection \\S+ drop-icmp-redirect yes",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "PAN-OS ICMP redirects drop enabled"
+  },
+  {
+    "vendor": "paloalto",
+    "command_pattern": "set password-complexity failed-attempts \\d+",
+    "normalized_param": "security.password_policy.login_lockout",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "PAN-OS admin failed login lockout"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "no ip source-route",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Arista EOS IP source routing disabled"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "no ip redirects",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Arista EOS ICMP redirects disabled"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "service password-encryption",
+    "normalized_param": "security.password_policy.encryption_service",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Arista EOS password encryption enabled"
+  },
+  {
+    "vendor": "arista",
+    "command_pattern": "neighbor \\S+ password \\S+",
+    "normalized_param": "security.routing.bgp_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Arista EOS BGP neighbor authentication"
+  },
+  {
+    "vendor": "generic",
+    "command_pattern": "no ip source-route",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Generic IP source routing disabled"
+  },
+  {
+    "vendor": "generic",
+    "command_pattern": "no ip redirects",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Generic ICMP redirects disabled"
+  },
+  {
+    "vendor": "generic",
+    "command_pattern": "service password-encryption",
+    "normalized_param": "security.password_policy.encryption_service",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Generic password encryption service"
+  },
+  {
+    "vendor": "generic",
+    "command_pattern": "ntp authenticate",
+    "normalized_param": "security.ntp.auth_enabled",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Generic NTP authentication"
+  },
+  {
+    "vendor": "cisco",
+    "command_pattern": "snmp-server user \\S+ \\S+ v3 .*priv (?:aes|des)",
+    "normalized_param": "security.snmp.v3_encryption",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Cisco SNMPv3 user authPriv AES encryption"
+  },
+  {
+    "vendor": "sonic",
+    "command_pattern": "SSH_SERVER\\s+version\\s+(?P<version>\\d+)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "int",
+    "description": "SONiC SSH server protocol version"
+  },
+  {
+    "vendor": "sonic",
+    "command_pattern": "SSH_SERVER\\s+idle_timeout\\s+(?P<seconds>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "int",
+    "description": "SONiC SSH idle timeout in seconds"
+  },
+  {
+    "vendor": "sonic",
+    "command_pattern": "NTP_SERVER",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "SONiC NTP server configuration"
+  },
+  {
+    "vendor": "sonic",
+    "command_pattern": "SYSLOG_SERVER",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "SONiC remote syslog forwarding"
+  },
+  {
+    "vendor": "sonic",
+    "command_pattern": "BGP_NEIGHBOR\\s+auth_password",
+    "normalized_param": "security.routing.bgp_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "SONiC BGP neighbor authentication"
+  },
+  {
+    "vendor": "sonic",
+    "command_pattern": "BGP_NEIGHBOR\\s+max_prefix",
+    "normalized_param": "security.routing.bgp_max_prefix",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "SONiC BGP neighbor prefix limit"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "service password-encryption",
+    "normalized_param": "security.password_policy.encryption_service",
+    "semantic_category": "Authentication",
+    "value_type": "boolean_true",
+    "description": "Cumulus FRR password encryption"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "neighbor \\S+ password \\S+",
+    "normalized_param": "security.routing.bgp_auth_enabled",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Cumulus FRR BGP authentication"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "neighbor \\S+ maximum-prefix \\d+",
+    "normalized_param": "security.routing.bgp_max_prefix",
+    "semantic_category": "Routing Security",
+    "value_type": "boolean_true",
+    "description": "Cumulus FRR BGP maximum prefix"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "exec-timeout (?P<min>\\d+)(?:\\s+(?P<sec>\\d+))?",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "eval_exec_timeout_cisco",
+    "description": "Cumulus VTY session timeout"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "transport input (?!none)(?P<proto>.*)",
+    "normalized_param": "security.telnet.enabled",
+    "semantic_category": "Remote Access",
+    "value_type": "eval_telnet_cisco",
+    "description": "Cumulus transport protocol"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "no ip source-route",
+    "normalized_param": "security.ip.source_routing_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Cumulus disable IP source routing"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "no ip redirects",
+    "normalized_param": "security.ip.redirects_disabled",
+    "semantic_category": "Routing & Forwarding",
+    "value_type": "boolean_true",
+    "description": "Cumulus disable ICMP redirects"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "ntp server \\S+",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Cumulus NTP server"
+  },
+  {
+    "vendor": "cumulus",
+    "command_pattern": "logging host \\S+",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Cumulus syslog server"
+  },
+  {
+    "vendor": "checkpoint",
+    "command_pattern": "set ssh server version (?P<version>\\d+)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "int",
+    "description": "Check Point Gaia SSH server version"
+  },
+  {
+    "vendor": "checkpoint",
+    "command_pattern": "set clish idle-timeout (?P<minutes>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "eval_minutes_to_seconds",
+    "description": "Check Point Gaia clish session idle timeout"
+  },
+  {
+    "vendor": "checkpoint",
+    "command_pattern": "set passwords min-length (?P<length>\\d+)",
+    "normalized_param": "security.password_policy.min_length",
+    "semantic_category": "Authentication",
+    "value_type": "int",
+    "description": "Check Point Gaia minimum password length"
+  },
+  {
+    "vendor": "checkpoint",
+    "command_pattern": "set ntp active on",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Check Point Gaia NTP active"
+  },
+  {
+    "vendor": "checkpoint",
+    "command_pattern": "set snmp agent-version v3-only",
+    "normalized_param": "security.snmp.v3_only",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Check Point Gaia SNMP v3 only"
+  },
+  {
+    "vendor": "checkpoint",
+    "command_pattern": "set aaa radius-servers on",
+    "normalized_param": "security.aaa.authentication_login",
+    "semantic_category": "Identity & Access",
+    "value_type": "boolean_true",
+    "description": "Check Point Gaia RADIUS authentication"
+  },
+  {
+    "vendor": "sophos",
+    "command_pattern": "system ssh version (?P<version>\\d+)",
+    "normalized_param": "security.ssh.version",
+    "semantic_category": "Remote Access",
+    "value_type": "int",
+    "description": "Sophos SFOS SSH version"
+  },
+  {
+    "vendor": "sophos",
+    "command_pattern": "system ssh idle-timeout (?P<seconds>\\d+)",
+    "normalized_param": "security.session_timeout",
+    "semantic_category": "Session Management",
+    "value_type": "int",
+    "description": "Sophos SFOS SSH idle timeout"
+  },
+  {
+    "vendor": "sophos",
+    "command_pattern": "system diagnostics password-complexity min-length (?P<length>\\d+)",
+    "normalized_param": "security.password_policy.min_length",
+    "semantic_category": "Authentication",
+    "value_type": "int",
+    "description": "Sophos SFOS minimum password length"
+  },
+  {
+    "vendor": "sophos",
+    "command_pattern": "system ntp server \\S+",
+    "normalized_param": "security.ntp.configured",
+    "semantic_category": "Time Synchronization",
+    "value_type": "boolean_true",
+    "description": "Sophos SFOS NTP configuration"
+  },
+  {
+    "vendor": "sophos",
+    "command_pattern": "system syslog host \\S+",
+    "normalized_param": "security.logging.syslog_enabled",
+    "semantic_category": "Auditing & Logging",
+    "value_type": "boolean_true",
+    "description": "Sophos SFOS remote syslog"
+  },
+  {
+    "vendor": "sophos",
+    "command_pattern": "system snmp version v3",
+    "normalized_param": "security.snmp.v3_only",
+    "semantic_category": "Network Management",
+    "value_type": "boolean_true",
+    "description": "Sophos SFOS SNMPv3"
+  }
+]
