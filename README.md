@@ -1,6 +1,5 @@
 # NetSentry
-
-**Smart India Hackathon 2026 — Problem Statement 26155**  
+[Drive Link for all the files](https://drive.google.com/drive/folders/1XXYZMRxGb2STmqXWCPuhH5Dypic3DqaA?usp=sharing)
 **Team: Data_Sentinel**
 
 NetSentry is an AI-Driven Multi-Vendor Network Security Compliance Auditor. It normalizes heterogeneous network configurations (Cisco, Juniper, Fortinet, Palo Alto, etc.) into a Canonical Security Baseline Model and evaluates them against CIS Benchmarks, NIST SP 800-53, DISA STIG, and ISO/IEC 27001 natively and deterministically.
